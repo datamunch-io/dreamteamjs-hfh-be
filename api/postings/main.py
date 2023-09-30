@@ -1,7 +1,5 @@
 import os
 from enum import Enum
-import datetime
-import uuid
 
 import functions_framework
 from google.cloud.sql.connector import Connector, IPTypes
@@ -40,9 +38,26 @@ def get_connection():
 def get_postings(**kwargs):
     only_certified = kwargs.get('certified', False)
     conn = get_connection()
-    sql = """
-        SELECT * FROM 
-    """
+    if only_certified:
+        sql = f"""
+            SELECT * FROM post
+            WHERE status_id = {Status.CERTIFIED};
+        """
+    else:
+        sql = f"""
+            SELECT * FROM post;
+        """
+
+    pool = sa.create_engine(
+        "mysql+pymysql://",
+        creator=conn
+    )
+
+    with pool.connect() as db_conn:
+        result = db_conn.execute(sql).fetchall()
+
+    conn.close()
+    return result
 
 
 @functions_framework.http
@@ -58,14 +73,4 @@ def main(request):
     """
     request_json = request.get_json(silent=True)
     only_certified = request_json.get('certified', False)
-    request_args = request.args
-    print(request_args)
-    print(request_json)
-
-    if request_json and 'name' in request_json:
-        name = request_json['name']
-    elif request_args and 'name' in request_args:
-        name = request_args['name']
-    else:
-        name = 'World'
-    return 'Hello {}!'.format(name)
+    return get_postings(certified=only_certified)
