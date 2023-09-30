@@ -8,7 +8,6 @@ from google.cloud.sql.connector import Connector, IPTypes
 from dotenv import load_dotenv
 import sqlalchemy as sa
 
-
 load_dotenv()
 
 PROJECT_ID = os.environ.get('PROJECT_ID')
@@ -37,39 +36,16 @@ def get_connection():
     return connection
 
 
-
-def create_posting(**kwargs):
-    '''
-    Inbound params:
-    - name: str Posting name
-    - donator_name: str Donator's name (individual or business)
-    - addr_1: str
-    - addr_2: str <optional>
-    - city: str
-    - state: str
-    - zip: str
-    - dollar_val: float
-    - image_uri: string - GCS URI to donation image
-    :param kwargs:
-    :return:
-    '''
+def certify_posting(**kwargs):
     conn = get_connection()
-    name = kwargs.get('name')
-    donator_name = kwargs.get('donator_name')
-    addr_1 = kwargs.get('addr_1')
-    addr_2 = kwargs.get('addr_2', '')
-    description = kwargs.get('description')
-    city = kwargs.get('city')
-    state = kwargs.get('state')
-    zip = kwargs.get('zip')
-    dollar_value = kwargs.get('dollar_value')
-    image_uri = kwargs.get('image_uri')
+    cert_id = str(uuid.uuid4())
+    post_id = kwargs.get('post_id')
+    certified = datetime.datetime.utcnow()
+    certifier_name = kwargs.get('certifier_name')
     insert_sql = f"""
-        INSERT INTO posts (name, donator_name, addr_1, addr_2, city, state, zip, status_id, dollar_val, description, gcs_image)
-        VALUES ('{name}', '{donator_name}', '{addr_1}', '{addr_2}', '{city}', '{state}', '{zip}', {Status.POSTED},
-        {dollar_value}, '{description}','{image_uri}')
+        INSERT INTO certifications (id, postid, certified_at, certifier_name)
+        VALUES ('{cert_id}', '{post_id}', '{certified}', '{certifier_name}')
     """
-
     pool = sa.create_engine(
         "mysql+pymysql://",
         creator=conn
