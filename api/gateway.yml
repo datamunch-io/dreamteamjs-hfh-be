@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  title: habitat-donations
+  description: "Interact with backend Habitat for Humanity donations database"
+  version: "1.0.0"
+host: hfh-donations.apigateway.data-253523.cloud.goog
+schemes:
+  - "https"
+paths:
+  "/donate":
+    post:
+      description: "Submit a donation posting"
+      operationId: "donate"
+      parameters:
+        - name: donation_title
+          in: query
+          required: true
+          type: string
+        - name: addr_1
+          in: query
+          required: true
+          type: string
+        - name: addr_2
+          in: query
+          required: false
+          type: string
+        - name: city
+          in: query
+          required: true
+          type: string
+        - name: state
+          in: query
+          required: true
+          type: string
+        - name: zipcode
+          in: query
+          required: true
+          type: string
+        - name: dollar_val
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Success."
+          schema:
+            type: string
+        400:
+          description: "Bad or missing data payload."
+  "/postings":
+    get:
+      description: "get list of donation postings."
+      operationId: postings
+      responses:
+        200:
+          description: "Success."
+          schema:
+            type: object
+        400:
+          description: "Bad request."
+        500:
+          description: "Unknown server error."
