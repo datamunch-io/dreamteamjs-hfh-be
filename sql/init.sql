@@ -18,7 +18,7 @@ create table post(
 drop table if exists status;
 create table status(
 	id smallint,
-	name varchar(256),
+	name varchar(256)
 );
 
 drop table if exists certifications;
