@@ -38,13 +38,13 @@ def get_connection():
 
 def update_status(**kwargs):
     conn = get_connection()
-    post_id = kwargs.get('id')
+    post_id = kwargs.get('post_id')
     name = kwargs.get('name')
     posted = kwargs.get('datetime')
     received = kwargs.get('received')
     certified = kwargs.get('datetime')
     insert_sql = f"""
-        INSERT INTO status (id, name, posted, received, certified) VALUES ('{id}', '{name}', '{posted}', '{received}', '{certified}')
+        INSERT INTO status (id, name, posted, received, certified) VALUES ('{post_id}', '{name}', '{posted}', '{received}', '{certified}')
     """
     pool = sa.create_engine(
         "mysql+pymysql://",

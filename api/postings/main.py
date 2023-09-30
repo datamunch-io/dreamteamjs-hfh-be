@@ -37,6 +37,14 @@ def get_connection():
     return connection
 
 
+def get_postings(**kwargs):
+    only_certified = kwargs.get('certified', False)
+    conn = get_connection()
+    sql = """
+        SELECT * FROM 
+    """
+
+
 @functions_framework.http
 def main(request):
     """HTTP Cloud Function.
@@ -49,6 +57,7 @@ def main(request):
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
     request_json = request.get_json(silent=True)
+    only_certified = request_json.get('certified', False)
     request_args = request.args
     print(request_args)
     print(request_json)
