@@ -1,10 +1,12 @@
 import os
+import json
 from enum import Enum
 
 import functions_framework
 from google.cloud.sql.connector import Connector, IPTypes
 from dotenv import load_dotenv
 import sqlalchemy as sa
+import pymysql
 
 
 load_dotenv()
@@ -24,40 +26,43 @@ def get_connection():
     connector = Connector()
     user = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
+    db = os.environ.get('DB')
     connection = connector.connect(
         f"{PROJECT_ID}:{REGION}:{INSTANCE}",
-        "pg8000",
+        "pymysql",
         user=user,
         password=password,
-        iptype=IPTypes.PUBLIC
+        db=db
     )
 
     return connection
 
 
 def get_postings(**kwargs):
-    only_certified = kwargs.get('certified', False)
+    only_certified = bool(int(kwargs.get('certified', False)))
     conn = get_connection()
     if only_certified:
         sql = f"""
             SELECT * FROM post
-            WHERE status_id = {Status.CERTIFIED};
+            WHERE status_id = {Status.CERTIFIED.value};
         """
     else:
         sql = f"""
             SELECT * FROM post;
         """
 
+    sql = sa.text(sql)
+
     pool = sa.create_engine(
         "mysql+pymysql://",
-        creator=conn
+        creator=get_connection
     )
 
     with pool.connect() as db_conn:
-        result = db_conn.execute(sql).fetchall()
+        result = db_conn.execute(sql).all()
 
     conn.close()
-    return result
+    return [json.dumps([dict(row._mapping) for row in result], default=str)]
 
 
 @functions_framework.http

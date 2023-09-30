@@ -66,13 +66,14 @@ def create_posting(**kwargs):
     image_uri = kwargs.get('image_uri')
     insert_sql = f"""
         INSERT INTO posts (name, donator_name, addr_1, addr_2, city, state, zip, status_id, dollar_val, description, gcs_image)
-        VALUES ('{name}', '{donator_name}', '{addr_1}', '{addr_2}', '{city}', '{state}', '{zip}', {Status.POSTED},
-        {dollar_value}, '{description}','{image_uri}')
+        VALUES ('{name}', '{donator_name}', '{addr_1}', '{addr_2}', '{city}', '{state}', '{zip}', {Status.POSTED.value},
+        {dollar_value}, '{description}', NULL)
     """
+    insert_sql = sa.text(insert_sql)
 
     pool = sa.create_engine(
         "mysql+pymysql://",
-        creator=conn
+        creator=get_connection
     )
 
     with pool.connect() as db_conn:
