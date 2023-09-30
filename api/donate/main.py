@@ -52,6 +52,7 @@ def create_posting(**kwargs):
     '''
     conn = get_connection()
     name = kwargs.get('name')
+    ud sql connect mysql-backend --user=root --quiet
     donator_name = kwargs.get('donator_name')
     addr_1 = kwargs.get('addr_1')
     addr_2 = kwargs.get('addr_2', '')
@@ -77,6 +78,45 @@ def create_posting(**kwargs):
 
     conn.close()
 
+def certify_posting(**kwargs):
+    conn = get_connection()
+    cert_id = kwargs.get('id')
+    post_id = kwargs.get('post_id')
+    posted = kwargs.get('posted')
+    certified = DateTime(default=datetime.datetime.utcnow)
+    insert_sql = f"""
+        INSERT INTO certifications (id, postid, certified_at, certifier_name)
+        VALUES ('{id}', '{postid}', '{certified_at}', '{certifier_name}')
+    """
+    pool = sa.create_engine(
+        "mysql+pymysql://",
+        creator=conn
+    )
+
+    with pool.connect() as db_conn:
+        result = db_conn.execute(insert_sql).fetchall()
+
+    conn.close()
+
+def update_status(**kwargs):
+    conn = get_connection()
+    post_id = kwargs.get('id')
+    name = kwargs.get('name')
+    posted = kwargs.get('datetime')
+    received = kwargs.get('received')
+    certified = kwargs.get('datetime')
+    insert_sql = f"""
+        INSERT INTO status (id, name, posted, received, certified) VALUES ('{id}', '{name}', '{posted}', '{received}', '{certified}')
+    """
+    pool = sa.create_engine(
+        "mysql+pymysql://",
+        creator=conn
+    )
+
+    with pool.connect() as db_conn:
+        result = db_conn.execute(insert_sql).fetchall()
+
+    conn.close()
 
 @functions_framework.http
 def main(request):
