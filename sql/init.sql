@@ -37,4 +37,4 @@ VALUES
 
 INSERT INTO post (id, created_at, description, addr_1, addr_2, city, state, zip, status_id, image_uri)
 VALUES
-('cd4fae52-ada9-499c-874b-de22d44733e1', NOW(), 'bricks and paint', '6701 Hiatus Rd', NULL, 'Tamarac', 'FL', '33321', 1, 'gs://hackathon-h4h-imgpub/bricks-paint.jpeg')
+('cd4fae52-ada9-499c-874b-de22d44733e1', NOW(), 'bricks and paint', '6701 Hiatus Rd', NULL, 'Tamarac', 'FL', '33321', 1, 'gs://hackathon-h4h-imgpub/bricks-paint.jpeg');
