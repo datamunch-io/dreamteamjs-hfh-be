@@ -37,7 +37,6 @@ def get_connection():
     return connection
 
 
-
 def create_posting(**kwargs):
     '''
     Inbound params:
@@ -98,10 +97,4 @@ def main(request):
     print(request_args)
     print(request_json)
 
-    if request_json and 'name' in request_json:
-        name = request_json['name']
-    elif request_args and 'name' in request_args:
-        name = request_args['name']
-    else:
-        name = 'World'
-    return 'Hello {}!'.format(name)
+    return create_posting(request_json)

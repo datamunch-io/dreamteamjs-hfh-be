@@ -61,8 +61,24 @@ def get_postings(**kwargs):
     with pool.connect() as db_conn:
         result = db_conn.execute(sql).all()
 
+    results = []
+    for row in result:
+        row_ = {
+            'id': row.id,
+            'created_at': row.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            'description': row.description,
+            'addr_1': row.addr_1,
+            'addr_2': row.addr_2,
+            'city': row.city,
+            'state': row.state,
+            'zip': row.zip,
+            'status_id': row.status_id,
+            'image_uri': row.image_uri
+        }
+        results.append(row_)
+
     conn.close()
-    return [json.dumps([dict(row._mapping) for row in result], default=str)]
+    return results
 
 
 @functions_framework.http
@@ -76,6 +92,21 @@ def main(request):
         Response object using `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
+
+    if request.method == 'OPTIONS':
+        # Allows GET requests from any origin with the Content-Type
+        # header and caches preflight response for an 3600s
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+
     request_json = request.get_json(silent=True)
     only_certified = request_json.get('certified', False)
-    return get_postings(certified=only_certified)
+    return (get_postings(certified=only_certified), 200, headers)
