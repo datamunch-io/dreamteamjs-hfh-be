@@ -37,12 +37,12 @@ VALUES
 
 INSERT INTO post (id, created_at, description, addr_1, addr_2, city, state, zip, status_id, image_uri)
 VALUES
-('cd4fae52-ada9-499c-874b-de22d44733e1', NOW(), 'bricks and paint', '6701 Hiatus Rd', NULL, 'Tamarac', 'FL', '33321', 1, 'gs://hackathon-h4h-imgpub/bricks-paint.jpeg'),
-('4384998e-2b92-49dd-8803-99f0a020b497', NOW(), 'an entire house full of wooden planks', '123 Fake St', NULL, 'Miami', 'FL', '33156', 2, 'gs://hackathon-h4h-imgpub/lots-o-lumber.jpeg'),
-('28c39a6e-b31d-460f-a0fd-527176d63398', NOW(), 'several piles of wooden planks', '456 False Ave', NULL, 'Miami', 'FL', '32359', 2, 'gs://hackathon-h4h-imgpub/lumber.jpeg'),
-('4c0db792-7bd6-443e-8a06-c22f2aac9750', NOW(), 'a series of assorted metal pipes and rods', '1205 Thompson Road', NULL, 'Tallahassee', 'FL', '32301', 3, 'gs://hackathon-h4h-imgpub/metals.jpeg'),
-('44cc4684-2b1a-45ee-ab1c-aff391d375ec', NOW(), 'at least 100 steel beams', '789 Johnson Road', NULL, 'Tamarac', 'FL', '33321', 3, 'gs://hackathon-h4h-imgpub/steel-beams.jpeg'),
-('73ec31a8-0ab8-44c6-8db5-02b7a649adc0', NOW(), 'a collection of rusty-looking metal pipes', '9572 123rd St', NULL, 'Miami', 'FL', '33149', 1, 'gs://hackathon-h4h-imgpub/tubing.jpeg');
+('cd4fae52-ada9-499c-874b-de22d44733e1', NOW(), 'bricks and paint', '6701 Hiatus Rd', NULL, 'Tamarac', 'FL', '33321', 1, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/bricks-paint.jpeg'),
+('4384998e-2b92-49dd-8803-99f0a020b497', NOW(), 'an entire house full of wooden planks', '123 Fake St', NULL, 'Miami', 'FL', '33156', 2, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/lots-o-lumber.jpeg'),
+('28c39a6e-b31d-460f-a0fd-527176d63398', NOW(), 'several piles of wooden planks', '456 False Ave', NULL, 'Miami', 'FL', '32359', 2, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/lumber.jpeg'),
+('4c0db792-7bd6-443e-8a06-c22f2aac9750', NOW(), 'a series of assorted metal pipes and rods', '1205 Thompson Road', NULL, 'Tallahassee', 'FL', '32301', 3, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/metals.jpeg'),
+('44cc4684-2b1a-45ee-ab1c-aff391d375ec', NOW(), 'at least 100 steel beams', '789 Johnson Road', NULL, 'Tamarac', 'FL', '33321', 3, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/steel-beams.jpeg'),
+('73ec31a8-0ab8-44c6-8db5-02b7a649adc0', NOW(), 'a collection of rusty-looking metal pipes', '9572 123rd St', NULL, 'Miami', 'FL', '33149', 1, 'https://storage.cloud.google.com/hackathon-h4h-imgpub/tubing.jpeg');
 
 INSERT INTO certifications (id, post_id, certified_at, certifier_name)
 VALUES
